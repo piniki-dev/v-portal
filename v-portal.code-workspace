@@ -1,0 +1,30 @@
+{
+  "folders": [
+    {
+      "name": "v-portal",
+      "path": "."
+    },
+    {
+      "name": "next",
+      "path": "next"
+    },
+    {
+      "name": "rails",
+      "path": "rails"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.git": false,
+      "**/.svn": false,
+      "**/.hg": false,
+      "**/CVS": false,
+      "**/.DS_Store": false,
+      "**/Thumbs.db": false,
+      "**/.ruby-lsp": false,
+      "next": true,
+      "rails": true
+    },
+    "explorer.excludeGitIgnore": true
+  }
+}
