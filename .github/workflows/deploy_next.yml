@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'rails_app/**'
+      - 'next/**'
 
 permissions:
   id-token: write
