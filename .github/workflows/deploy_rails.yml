@@ -1,9 +1,12 @@
 name: Rails deploy to ECR
 
 on:
+  workflow_dispatch:
   push:
+    branches:
+      - main
     paths:
-      - 'rails_app/**'
+      - 'rails/**'
 
 jobs:
   rails_deploy_to_ecr:
