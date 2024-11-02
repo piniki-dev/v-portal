@@ -11,6 +11,9 @@ on:
 jobs:
   rails_deploy_to_ecr:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rails
     permissions:
       id-token: write
       contents: read
