@@ -26,8 +26,8 @@ jobs:
 
       - name: Install dependencies and build Next.js app
         run: |
-          npm install
-          npm run build
+          yarn install
+          yarn next build
 
       - name: Set up AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
