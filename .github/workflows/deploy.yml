@@ -12,6 +12,9 @@ permissions:
 jobs:
   build_and_deploy_nextjs_to_s3:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: next
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.2.2
@@ -23,7 +26,6 @@ jobs:
 
       - name: Install dependencies and build Next.js app
         run: |
-          cd /home/runner/work/v-portal
           npm install
           npm run build
 
