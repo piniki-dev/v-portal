@@ -54,19 +54,15 @@ jobs:
       - name: Update task definition with new image
         id: update-task-def
         run: |
-          jq '.containerDefinitions[0].image = "${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_RAILS_REPOSITORY }}:${{ github.sha }}"' task-def.json > new-task-def.json
+          set -e
+          jq '.containerDefinitions[0].image = "${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_RAILS_REPOSITORY }}:${{ github.sha }}"' task-def.json > new-task-def.json || exit 1
 
       - name: Clean up and format task definition for registration
         id: clean-task-def
         run: |
-          jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' new-task-def.json > new-task-def.json
-          jq '.' new-task-def.json > formatted-task-def.json
-
-      - name: cat json
-        run: |
-          cat task-def.json
-          cat new-task-def.json
-          cat formatted-task-def.json
+          set -e
+          jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' new-task-def.json > new-task-def.json || exit 1
+          jq '.' new-task-def.json > formatted-task-def.json || exit 1
 
       - name: Render new task definition with updated image
         id: task-def
