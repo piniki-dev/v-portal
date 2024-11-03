@@ -64,6 +64,24 @@ jobs:
           jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' new-task-def.json > new-task-def.json || exit 1
           jq '.' new-task-def.json > formatted-task-def.json || exit 1
 
+      - name: Check if new task definition exists
+        run: |
+          if [ -f new-task-def.json ]; then
+            echo "new-task-def.json exists"
+          else
+            echo "new-task-def.json does not exist"
+            exit 1
+          fi
+
+      - name: Check if formatted task definition exists
+        run: |
+          if [ -f formatted-task-def.json ]; then
+            echo "formatted-task-def.json exists"
+          else
+            echo "formatted-task-def.json does not exist"
+            exit 1
+          fi
+
       - name: Render new task definition with updated image
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
