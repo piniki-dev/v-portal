@@ -55,7 +55,7 @@ jobs:
         id: update-task-def
         run: |
           set -e
-          jq '.containerDefinitions[0].image = "${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_RAILS_REPOSITORY }}:${{ github.sha }}"' task-def.json > new-task-def.json || exit 1
+          jq '.containerDefinitions[0].image = "\"${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_RAILS_REPOSITORY }}:${{ github.sha }}\""' task-def.json > new-task-def.json || { echo "Failed to update task definition"; exit 1; }
 
       - name: Clean up and format task definition for registration
         id: clean-task-def
