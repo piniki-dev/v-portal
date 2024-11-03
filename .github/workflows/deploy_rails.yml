@@ -77,7 +77,7 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: formatted-task-def.json
+          task-definition: rails/formatted-task-def.json
           container-name: ${{ secrets.AWS_ECS_RAILS_CONTAINER_NAME }}
           image: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.sha }}
 
