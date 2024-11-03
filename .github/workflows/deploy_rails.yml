@@ -51,13 +51,15 @@ jobs:
             --query 'taskDefinition' \
             > task-def.json
 
-      - name: Display task definition file
-        run: cat task-def.json
-
       - name: Update task definition with new image
         id: update-task-def
         run: |
           jq '.containerDefinitions[0].image = "${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_RAILS_REPOSITORY }}:${{ github.sha }}"' task-def.json > new-task-def.json
+
+      - name: Clean up task definition for registration
+        id: clean-task-def
+        run: |
+          jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' new-task-def.json > new-task-def.json
 
       - name: Register new task definition in ECS
         id: register-task-def
