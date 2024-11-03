@@ -82,6 +82,17 @@ jobs:
             exit 1
           fi
 
+      - name: Display task definition files
+        run: |
+          echo "===== task-def.json ====="
+          cat task-def.json
+
+          echo "===== new-task-def.json ====="
+          cat new-task-def.json
+
+          echo "===== formatted-task-def.json ====="
+          cat formatted-task-def.json
+
       - name: Render new task definition with updated image
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
