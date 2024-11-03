@@ -42,13 +42,25 @@ jobs:
           docker build . --tag ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}
           docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}
 
-      - name: Render new task definition with updated image
-        id: render-container
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ secrets.AWS_ECS_RAILS_TASK_DEFINITION_ARN }} 
-          container-name: ${{ secrets.AWS_ECS_RAILS_CONTAINER_NAME }}
-          image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_RAILS_REPOSITORY }}:${{ github.sha }}
+      - name: Get current task definition from ECS
+        id: get-task-def
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition ${{ secrets.AWS_ECS_RAILS_TASK_DEFINITION_ARN }} \
+            --region ap-northeast-1 \
+            > task-def.json
+
+      - name: Update task definition with new image
+        id: update-task-def
+        run: |
+          jq '.taskDefinition.containerDefinitions[0].image = "${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_RAILS_REPOSITORY }}:${{ github.sha }}"' task-def.json > new-task-def.json
+
+      - name: Register new task definition in ECS
+        id: register-task-def
+        run: |
+          aws ecs register-task-definition \
+            --cli-input-json file://new-task-def.json \
+            --region ap-northeast-1
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
