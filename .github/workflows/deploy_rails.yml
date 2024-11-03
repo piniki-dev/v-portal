@@ -68,14 +68,14 @@ jobs:
           set -e
           jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' new-task-def.json > update-task-def.json || exit 1
           # jq '.' update-task-def.json > formatted-task-def.json || exit 1
-          echo "===== update-task-def.json.json ====="
-          cat update-task-def.json.json
+          echo "===== update-task-def.json ====="
+          cat update-task-def.json
 
       - name: Render new task definition with updated image
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: update-task-def.json.json
+          task-definition: update-task-def.json
           container-name: ${{ secrets.AWS_ECS_RAILS_CONTAINER_NAME }}
           image: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.sha }}
 
