@@ -59,7 +59,7 @@ jobs:
       - name: Clean up and format task definition for registration
         id: clean-task-def
         run: |
-          jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' task-def.json > new-task-def.json
+          jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' new-task-def.json > new-task-def.json
           jq '.' new-task-def.json > formatted-task-def.json
 
       - name: Render new task definition with updated image
