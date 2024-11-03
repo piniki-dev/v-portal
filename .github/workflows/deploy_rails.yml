@@ -62,6 +62,12 @@ jobs:
           jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' new-task-def.json > new-task-def.json
           jq '.' new-task-def.json > formatted-task-def.json
 
+      - name: cat json
+        run: |
+          cat task-def.json
+          cat new-task-def.json
+          cat formatted-task-def.json
+
       - name: Render new task definition with updated image
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
