@@ -46,7 +46,7 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ secrets.AWS_ECS_TASK_DEFINITION_FILE_RAILS }}
+          task-definition: ${{ secrets.AWS_ECS_RAILS_TASK_DEFINITION_ARN }}
           container-name: ${{ secrets.AWS_ECS_RAILS_CONTAINER_NAME }}
           image: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}
 
