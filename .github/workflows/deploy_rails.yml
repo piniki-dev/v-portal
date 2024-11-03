@@ -67,7 +67,7 @@ jobs:
         run: |
           set -e
           jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' new-task-def.json > new-task-def.json || exit 1
-          jq '.' new-task-def.json > formatted-task-def.json || exit 1
+          # jq '.' new-task-def.json > formatted-task-def.json || exit 1
           echo "===== formatted-task-def.json ====="
           cat formatted-task-def.json
 
