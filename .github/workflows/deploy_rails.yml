@@ -62,12 +62,13 @@ jobs:
           jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' task-def.json > new-task-def.json
           jq '.' new-task-def.json > formatted-task-def.json
 
-      - name: Register new task definition in ECS
-        id: register-task-def
-        run: |
-          aws ecs register-task-definition \
-            --cli-input-json file://formatted-task-def.json \
-            --region ap-northeast-1
+      - name: Render new task definition with updated image
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: formatted-task-def.json
+          container-name: ${{ secrets.AWS_ECS_RAILS_CONTAINER_NAME }}
+          image: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.sha }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
