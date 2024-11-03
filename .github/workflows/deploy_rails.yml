@@ -50,6 +50,7 @@ jobs:
             --region ap-northeast-1 \
             --query 'taskDefinition' \
             > task-def.json
+          cat taskdef.json
 
       - name: Update task definition with new image
         id: update-task-def
