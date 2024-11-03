@@ -83,6 +83,7 @@ test:
 #
 production:
   <<: *default
-  database: app_production
-  username: app
-  password: <%= ENV["APP_DATABASE_PASSWORD"] %>
+  database: v-portal-rds
+  username: ${{ secrets.DB_USER }}
+  host: ${{ DB_HOST }}
+  password: ${{ DB_PASSWORD }}
