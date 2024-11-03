@@ -56,16 +56,17 @@ jobs:
         run: |
           jq '.containerDefinitions[0].image = "${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_RAILS_REPOSITORY }}:${{ github.sha }}"' task-def.json > new-task-def.json
 
-      - name: Clean up task definition for registration
+      - name: Clean up and format task definition for registration
         id: clean-task-def
         run: |
-          jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' new-task-def.json > new-task-def.json
+          jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' task-def.json > new-task-def.json
+          jq '.' new-task-def.json > formatted-task-def.json
 
       - name: Register new task definition in ECS
         id: register-task-def
         run: |
           aws ecs register-task-definition \
-            --cli-input-json file://new-task-def.json \
+            --cli-input-json file://formatted-task-def.json \
             --region ap-northeast-1
 
       - name: Deploy Amazon ECS task definition
