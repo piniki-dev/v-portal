@@ -68,3 +68,15 @@ rails/tmp/storage/*
 
 # Ignore master key for decrypting credentials and more.
 rails/config/master.key
+
+terraform_accessKeys.csv
+v-portal-rails-revision1.json
+terraform/.terraform/
+terraform/*.tfvars
+terraform/*.auto.tfvars
+terraform/*.tfplan
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/*.tfplan
+terraform/.terraformrc
+terraform/terraform.rc
