@@ -25,6 +25,7 @@
       "next": true,
       "rails": true
     },
-    "explorer.excludeGitIgnore": true
+    "explorer.excludeGitIgnore": true,
+    "cSpell.words": ["uncategorized", "vtubers"]
   }
 }
