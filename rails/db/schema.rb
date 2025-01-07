@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_05_092011) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_07_144211) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,6 +36,25 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_05_092011) do
     t.string "name", null: false, comment: "Production name"
     t.boolean "delete_flag", default: false, null: false, comment: "Delete flag"
     t.datetime "deleted_at", comment: "Deleted at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "songs", force: :cascade do |t|
+    t.bigint "songs_metadata_id", null: false, comment: "Songs metadata ID"
+    t.integer "start_time", null: false, comment: "Song start time"
+    t.integer "end_time", null: false, comment: "Song end time"
+    t.integer "track_number", null: false, comment: "Song track number"
+    t.boolean "is_full", default: true, null: false, comment: "Is full song"
+    t.string "video_id", null: false, comment: "Video ID"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["songs_metadata_id"], name: "index_songs_on_songs_metadata_id"
+  end
+
+  create_table "songs_metadata", force: :cascade do |t|
+    t.string "title", null: false, comment: "Track title"
+    t.string "artist", null: false, comment: "Track artist"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -71,6 +90,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_05_092011) do
   end
 
   add_foreign_key "channels", "vtubers"
+  add_foreign_key "songs", "songs_metadata", column: "songs_metadata_id"
+  add_foreign_key "songs", "videos"
   add_foreign_key "videos", "channels"
   add_foreign_key "vtubers", "productions"
 end
